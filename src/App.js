@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import NewToDo from "./components/NewToDo";
+import ToDoItem from "./components/ToDoItem";
+import Header from "./components/Header";
+import React from "react";
+import { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 
 function App() {
+  const [allTasks, setAllTasks] = useState(() => {
+    const taskList = localStorage.getItem("task-list");
+    if (taskList) {
+      return JSON.parse(taskList);
+    } else {
+      return [];
+    }
+  });
+  console.log(allTasks);
+
+  useEffect(() => {
+    localStorage.setItem("task-list", JSON.stringify(allTasks));
+  }, [allTasks]);
+
+  function addNewTask(taskName) {
+    const newTask = {
+      id: nanoid(),
+      name: taskName,
+      isComplete: false,
+      isArchieved: false,
+    };
+    setAllTasks([...allTasks, newTask]);
+  }
+
+  function setCompleteState(id, newIsComplete) {
+    const completedTasks = allTasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, isComplete: newIsComplete };
+      } else {
+        return task;
+      }
+    });
+    setAllTasks(completedTasks);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header></Header>
+      <NewToDo setNewTask={addNewTask}></NewToDo>
+      {allTasks.map((task) => {
+        return (
+          <ToDoItem
+            key={task.id}
+            taskData={task}
+            setCompleteState={setCompleteState}
+          ></ToDoItem>
+        );
+      })}
     </div>
   );
 }
