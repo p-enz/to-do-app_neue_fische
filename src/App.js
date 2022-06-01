@@ -14,8 +14,6 @@ function App() {
       return [];
     }
   });
-  console.log(allTasks);
-
   useEffect(() => {
     localStorage.setItem("task-list", JSON.stringify(allTasks));
   }, [allTasks]);
@@ -30,30 +28,52 @@ function App() {
     setAllTasks([...allTasks, newTask]);
   }
 
-  function setCompleteState(id, newIsComplete) {
-    const completedTasks = allTasks.map((task) => {
+  function setCompleteState(id) {
+    const taskCompleted = allTasks.map((task) => {
       if (task.id === id) {
-        return { ...task, isComplete: newIsComplete };
+        return { ...task, isComplete: !task.isComplete };
       } else {
         return task;
       }
     });
-    setAllTasks(completedTasks);
+    setAllTasks(taskCompleted);
+  }
+
+  //function works but i need to render it new because i use local storage
+
+  function setArchieved(id) {
+    const archive = allTasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, isArchieved: !task.isArchieved };
+      }
+      return task;
+    });
+    setAllTasks(archive);
+  }
+
+  function setDelete(id) {
+    const deleteTask = [...allTasks];
+    setAllTasks(deleteTask.filter((task) => !(task.id === id)));
   }
 
   return (
     <div className="App">
       <Header></Header>
       <NewToDo setNewTask={addNewTask}></NewToDo>
-      {allTasks.map((task) => {
-        return (
-          <ToDoItem
-            key={task.id}
-            taskData={task}
-            setCompleteState={setCompleteState}
-          ></ToDoItem>
-        );
-      })}
+      {allTasks
+        .filter((task) => !task.isArchieved)
+        .map((task) => {
+          return (
+            <ToDoItem
+              key={task.id}
+              taskData={task}
+              isComplete={task.isComplete}
+              setCompleteState={() => setCompleteState(task.id)}
+              setArchieved={() => setArchieved(task.id)}
+              setDelete={() => setDelete(task.id)}
+            ></ToDoItem>
+          );
+        })}
     </div>
   );
 }

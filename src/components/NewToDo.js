@@ -13,7 +13,6 @@ export default function NewToDo({ setNewTask }) {
         if (!!task) {
           setNewTask(task);
           setTask("");
-          event.target.reset();
         } else {
           alert("Add some input");
         }

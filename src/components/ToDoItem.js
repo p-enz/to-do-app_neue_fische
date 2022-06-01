@@ -1,16 +1,26 @@
 import styled from "styled-components";
 import React from "react";
 
-export default function ToDoItem({ taskData, setCompleteState }) {
+export default function ToDoItem({
+  taskData,
+  setCompleteState,
+  setDelete,
+  setArchieved,
+  isComplete,
+}) {
   return (
-    <SingleTask>
+    <SingleTask isComplete={taskData.isComplete}>
       <p>{taskData.name}</p>
-      <button
-        onClick={() => setCompleteState(taskData.id, !taskData.isComplete)}
-      >
-        {taskData.isComplete ? "Completed" : "Uncomplete"}
+      <button onClick={() => setCompleteState(taskData.id)}>
+        {isComplete ? "Complete" : "Uncomplete"}
       </button>
-      <button>archive</button>
+      <button
+        onClick={() =>
+          isComplete ? setArchieved(taskData.id) : setDelete(taskData.id)
+        }
+      >
+        {isComplete ? "Archive" : "Delete"}
+      </button>
     </SingleTask>
   );
 }
@@ -20,7 +30,6 @@ const SingleTask = styled.article`
   width: 25em;
   display: flex;
   justify-content: space-evenly;
-  /*  ccolorchange does not work */
   background: ${(props) => (props.isComplete ? "green" : "red")};
 
   box-shadow: 2px 2px 10px darkslategray;
