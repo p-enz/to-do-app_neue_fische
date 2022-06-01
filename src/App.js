@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import React from "react";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import ArchivePage from "./components/ArchivePage";
 
 function App() {
   const [allTasks, setAllTasks] = useState(() => {
@@ -74,6 +75,7 @@ function App() {
             ></ToDoItem>
           );
         })}
+      <ArchivePage archive={allTasks}></ArchivePage>
     </div>
   );
 }
