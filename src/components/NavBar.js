@@ -8,7 +8,7 @@ export default function NavBar() {
         <NavLink to="/">Home </NavLink>
       </li>
       <li>
-        <NavLink to="/ahha">Archive </NavLink>
+        <NavLink to="/Archive">Archive </NavLink>
       </li>
       <li>
         <NavLink to="/Random">Random </NavLink>
