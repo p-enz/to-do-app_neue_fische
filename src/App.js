@@ -5,6 +5,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import ArchivePage from "./components/ArchivePage";
+import RandomPage from "./components/RandomPage";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [allTasks, setAllTasks] = useState(() => {
@@ -40,8 +43,6 @@ function App() {
     setAllTasks(taskCompleted);
   }
 
-  //function works but i need to render it new because i use local storage
-
   function setArchieved(id) {
     const archive = allTasks.map((task) => {
       if (id === task.id) {
@@ -60,22 +61,37 @@ function App() {
   return (
     <div className="App">
       <Header></Header>
-      <NewToDo setNewTask={addNewTask}></NewToDo>
-      {allTasks
-        .filter((task) => !task.isArchieved)
-        .map((task) => {
-          return (
-            <ToDoItem
-              key={task.id}
-              taskData={task}
-              isComplete={task.isComplete}
-              setCompleteState={() => setCompleteState(task.id)}
-              setArchieved={() => setArchieved(task.id)}
-              setDelete={() => setDelete(task.id)}
-            ></ToDoItem>
-          );
-        })}
-      <ArchivePage archive={allTasks}></ArchivePage>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <NewToDo setNewTask={addNewTask}></NewToDo>
+              {allTasks
+                .filter((task) => !task.isArchieved)
+                .map((task) => {
+                  return (
+                    <ToDoItem
+                      key={task.id}
+                      taskData={task}
+                      isComplete={task.isComplete}
+                      setCompleteState={() => setCompleteState(task.id)}
+                      setArchieved={() => setArchieved(task.id)}
+                      setDelete={() => setDelete(task.id)}
+                    ></ToDoItem>
+                  );
+                })}
+            </>
+          }
+        ></Route>
+
+        <Route
+          path="/archive"
+          element={<ArchivePage archive={allTasks}></ArchivePage>}
+        ></Route>
+        <Route path="/randomTask" element={<RandomPage></RandomPage>}></Route>
+      </Routes>
+      <NavBar></NavBar>
     </div>
   );
 }

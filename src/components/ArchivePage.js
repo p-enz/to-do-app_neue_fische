@@ -1,6 +1,5 @@
 import React from "react";
 import ArchivedToDo from "./ArchivedToDo";
-import ToDoItem from "./ToDoItem";
 
 export default function ArchivePage({ archive }) {
   return (
@@ -9,7 +8,7 @@ export default function ArchivePage({ archive }) {
       {archive
         .filter((task) => task.isArchieved)
         .map((task) => {
-          return <ArchivedToDo name={task.name}></ArchivedToDo>;
+          return <ArchivedToDo key={task.id} name={task.name}></ArchivedToDo>;
         })}
     </>
   );
