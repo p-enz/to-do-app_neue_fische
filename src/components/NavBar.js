@@ -11,7 +11,7 @@ export default function NavBar() {
         <NavLink to="/Archive">Archive </NavLink>
       </li>
       <li>
-        <NavLink to="/Random">Random </NavLink>
+        <NavLink to="/RandomTask">Random Task </NavLink>
       </li>
     </ul>
   );

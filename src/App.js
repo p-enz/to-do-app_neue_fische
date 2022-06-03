@@ -86,10 +86,13 @@ function App() {
         ></Route>
 
         <Route
-          path="/archive"
+          path="/Archive"
           element={<ArchivePage archive={allTasks}></ArchivePage>}
         ></Route>
-        <Route path="/randomTask" element={<RandomPage></RandomPage>}></Route>
+        <Route
+          path="/RandomTask"
+          element={<RandomPage randomTasks={allTasks}></RandomPage>}
+        ></Route>
       </Routes>
       <NavBar></NavBar>
     </div>
